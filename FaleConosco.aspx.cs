@@ -6,6 +6,8 @@ using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Net.Mail;
+using Adslib;
+
 
 namespace Projeto3
 {
@@ -62,7 +64,7 @@ namespace Projeto3
                     smtp.Send(mail);
 
                     Alerta.Text = "Seu e-mail foi enviado com sucesso";
-                    Alerta.ForeColor = System.Drawing.Color.Green;
+                    Alerta.ForeColor = System.Drawing.Color.Black;
                     Formulario.Visible = false;
 
                     
@@ -70,22 +72,13 @@ namespace Projeto3
                 catch (Exception ex)
                 {
 
-                    Alerta.Text = "Houve uma falha no sistema, por favor tente mais tarde. <br> " + ex.Message;
-                    
+                    Alerta.Text = "Houve uma falha no sistema, por favor tente mais tarde. <br> ";
 
                     Formulario.Visible = false;
 
-                    //Escreva um código abaixo para gravar (append) a mensagem no arquivo "LogExececoes.txt", já temos um exemplo de código precisa procurar e tomar cuidado ao copiar
-                    string conteudo = "";
-
-                    conteudo = Nome.Text + "\n";
-                    conteudo += Email.Text + "\n";
-                    conteudo += Telefone.Text + "\n";
-                    conteudo += Mensagem.Text + "\n";
-                    conteudo += "-----------------------------\n";
-
-                    string caminhoFisicoFaleConosco = Server.MapPath("~/LogExcecoes.txt");
-                    System.IO.File.AppendAllText(caminhoFisicoFaleConosco, conteudo);
+                    //Criar uma instancia da classe
+                    TratamentoExcecoes tr = new TratamentoExcecoes();
+                    tr.GravarExcecao(ex);
 
                 }
             }
